@@ -6,9 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+/**
+ * 
+ * @author libajunior
+ */
 @Entity
 @Table(name = "grupo")
 public class GrupoEntity {
+    
     @Id
     @GeneratedValue
     private Integer id;
