@@ -2,6 +2,7 @@ package br.edu.materdei.tas.core.entity;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -9,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class Pessoa {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Integer id;
     
     @Column(length = 6, nullable = false)
