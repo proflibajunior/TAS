@@ -4,6 +4,7 @@ import br.edu.materdei.tas.core.entity.ProdutoEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,14 +13,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "itempedido")
 public class ItemPedidoEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Integer id;
     
     @Column(nullable = false)
     private Double qtdade;
     
     @Column(nullable = false)
-    private Double vltunit;
+    private Double vlrunit;
     
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -54,17 +55,17 @@ public class ItemPedidoEntity {
     }
 
     /**
-     * @return the vltunit
+     * @return the vlrunit
      */
-    public Double getVltunit() {
-        return vltunit;
+    public Double getVlrunit() {
+        return vlrunit;
     }
 
     /**
-     * @param vltunit the vltunit to set
+     * @param vlrunit the vlrunit to set
      */
-    public void setVltunit(Double vltunit) {
-        this.vltunit = vltunit;
+    public void setVlrunit(Double vlrunit) {
+        this.vlrunit = vlrunit;
     }
 
     /**
