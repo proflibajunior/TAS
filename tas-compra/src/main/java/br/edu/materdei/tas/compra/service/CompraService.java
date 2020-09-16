@@ -16,26 +16,26 @@ public class CompraService implements IBaseService<CompraEntity>{
     private CompraRepository repository;
     
     @Override
-     @Transactional
+    @Transactional
     public List<CompraEntity> findAll() {
         return repository.findAll();
     }
 
     @Override
-     @Transactional
+    @Transactional
     public CompraEntity findById(Integer id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(id));
     }
 
     @Override
-     @Transactional
+    @Transactional
     public CompraEntity save(CompraEntity entity) {
         return repository.saveAndFlush(entity);
     }
 
     @Override
-     @Transactional
+    @Transactional
     public void delete(Integer id) throws ResourceNotFoundException {
         repository.deleteById(id);
     }
