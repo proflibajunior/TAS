@@ -1,8 +1,8 @@
 package br.edu.materdei.tas.server.controller;
 
-import br.edu.materdei.tas.core.entity.GrupoEntity;
+import br.edu.materdei.tas.compra.entity.FornecedorEntity;
+import br.edu.materdei.tas.compra.service.FornecedorService;
 import br.edu.materdei.tas.core.exception.ResourceNotFoundException;
-import br.edu.materdei.tas.core.service.GrupoService;
 import br.edu.materdei.tas.server.utils.CustomErrorResponse;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GrupoController {
+public class FornecedorController {
     
     @Autowired
-    private GrupoService service;
+    private FornecedorService service;
     
-    @GetMapping("grupos")
-    public ResponseEntity<List<GrupoEntity>> findAll() {
+    @GetMapping("fornecedores")
+    public ResponseEntity<List<FornecedorEntity>> findAll() {
         try {
             //Busca TODOS os registros no banco de dados
-            List<GrupoEntity> grupos = service.findAll();
+            List<FornecedorEntity> fornecedores = service.findAll();
 
-            //Retorna a lista de grupos
-            return new ResponseEntity(grupos, HttpStatus.OK);  
+            //Retorna a lista de fornecedores
+            return new ResponseEntity(fornecedores, HttpStatus.OK);  
             
         } catch (Exception e) {
             
@@ -40,14 +40,14 @@ public class GrupoController {
         }
     }
     
-    @PostMapping("grupos")
-    public ResponseEntity create(@RequestBody GrupoEntity grupo) {
+    @PostMapping("fornecedores")
+    public ResponseEntity create(@RequestBody FornecedorEntity fornecedor) {
         try {
-            //Insere o grupo no bando de dados
-            this.service.save(grupo);
+            //Insere o fornecedor no bando de dados
+            this.service.save(fornecedor);
             
-            //Retorna o grupo inserido
-            return new ResponseEntity(grupo, HttpStatus.CREATED);
+            //Retorna o fornecedor inserido
+            return new ResponseEntity(fornecedor, HttpStatus.CREATED);
             
         } catch (Exception e) {
             
@@ -58,21 +58,21 @@ public class GrupoController {
         }
     }
     
-    @GetMapping("grupos/{id}")
+    @GetMapping("fornecedores/{id}")
     public ResponseEntity findByID(@PathVariable("id") Integer id) {
         try {
             
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity grupo = this.service.findById(id);
+            //Verifica se existe um fornecedor com o ID passado por parametro
+            FornecedorEntity fornecedor = this.service.findById(id);
             
-            //Retorna o grupo com o ID do parametro
-            return new ResponseEntity(grupo, HttpStatus.OK);
+            //Retorna o fornecedor com o ID do parametro
+            return new ResponseEntity(fornecedor, HttpStatus.OK);
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de fornecedor não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um fornecedor com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {
@@ -84,27 +84,27 @@ public class GrupoController {
         }
     }
     
-    @PutMapping("grupos/{id}")
+    @PutMapping("fornecedores/{id}")
     public ResponseEntity update(@PathVariable("id") Integer id, 
-            @RequestBody GrupoEntity grupo) {
+            @RequestBody FornecedorEntity fornecedor) {
         try {
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity found = this.service.findById(id);
+            //Verifica se existe um fornecedor com o ID passado por parametro
+            FornecedorEntity found = this.service.findById(id);
             
             //Força que o novo objeto tenha o memso ID do objeto localizado
-            grupo.setId(found.getId());
+            fornecedor.setId(found.getId());
             
             //Salvara o novo objeto no banco
-            this.service.save(grupo);            
+            this.service.save(fornecedor);            
             
             //Retorna o objeto que foi atualizado
-            return new ResponseEntity(grupo, HttpStatus.OK);
+            return new ResponseEntity(fornecedor, HttpStatus.OK);
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de fornecedor não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um fornecedor com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {
@@ -116,11 +116,11 @@ public class GrupoController {
         }
     }
     
-    @DeleteMapping("grupos/{id}")
+    @DeleteMapping("fornecedores/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         try {
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity found = this.service.findById(id);
+            //Verifica se existe um fornecedor com o ID passado por parametro
+            FornecedorEntity found = this.service.findById(id);
             
             
             //Exclui o item localizado
@@ -131,9 +131,9 @@ public class GrupoController {
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de fornecedor não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um fornecedor com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {

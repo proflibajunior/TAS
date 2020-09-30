@@ -1,9 +1,9 @@
 package br.edu.materdei.tas.server.controller;
 
-import br.edu.materdei.tas.core.entity.GrupoEntity;
 import br.edu.materdei.tas.core.exception.ResourceNotFoundException;
-import br.edu.materdei.tas.core.service.GrupoService;
 import br.edu.materdei.tas.server.utils.CustomErrorResponse;
+import br.edu.materdei.tas.venda.entity.PedidoEntity;
+import br.edu.materdei.tas.venda.service.PedidoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GrupoController {
+public class PedidoController {
     
     @Autowired
-    private GrupoService service;
+    private PedidoService service;
     
-    @GetMapping("grupos")
-    public ResponseEntity<List<GrupoEntity>> findAll() {
+    @GetMapping("pedidos")
+    public ResponseEntity<List<PedidoEntity>> findAll() {
         try {
             //Busca TODOS os registros no banco de dados
-            List<GrupoEntity> grupos = service.findAll();
+            List<PedidoEntity> pedidos = service.findAll();
 
-            //Retorna a lista de grupos
-            return new ResponseEntity(grupos, HttpStatus.OK);  
+            //Retorna a lista de pedidos
+            return new ResponseEntity(pedidos, HttpStatus.OK);  
             
         } catch (Exception e) {
             
@@ -40,14 +40,14 @@ public class GrupoController {
         }
     }
     
-    @PostMapping("grupos")
-    public ResponseEntity create(@RequestBody GrupoEntity grupo) {
+    @PostMapping("pedidos")
+    public ResponseEntity create(@RequestBody PedidoEntity pedido) {
         try {
-            //Insere o grupo no bando de dados
-            this.service.save(grupo);
+            //Insere o pedido no bando de dados
+            this.service.save(pedido);
             
-            //Retorna o grupo inserido
-            return new ResponseEntity(grupo, HttpStatus.CREATED);
+            //Retorna o pedido inserido
+            return new ResponseEntity(pedido, HttpStatus.CREATED);
             
         } catch (Exception e) {
             
@@ -58,21 +58,21 @@ public class GrupoController {
         }
     }
     
-    @GetMapping("grupos/{id}")
+    @GetMapping("pedidos/{id}")
     public ResponseEntity findByID(@PathVariable("id") Integer id) {
         try {
             
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity grupo = this.service.findById(id);
+            //Verifica se existe um pedido com o ID passado por parametro
+            PedidoEntity pedido = this.service.findById(id);
             
-            //Retorna o grupo com o ID do parametro
-            return new ResponseEntity(grupo, HttpStatus.OK);
+            //Retorna o pedido com o ID do parametro
+            return new ResponseEntity(pedido, HttpStatus.OK);
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de pedido não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um pedido com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {
@@ -84,27 +84,27 @@ public class GrupoController {
         }
     }
     
-    @PutMapping("grupos/{id}")
+    @PutMapping("pedidos/{id}")
     public ResponseEntity update(@PathVariable("id") Integer id, 
-            @RequestBody GrupoEntity grupo) {
+            @RequestBody PedidoEntity pedido) {
         try {
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity found = this.service.findById(id);
+            //Verifica se existe um pedido com o ID passado por parametro
+            PedidoEntity found = this.service.findById(id);
             
             //Força que o novo objeto tenha o memso ID do objeto localizado
-            grupo.setId(found.getId());
+            pedido.setId(found.getId());
             
             //Salvara o novo objeto no banco
-            this.service.save(grupo);            
+            this.service.save(pedido);            
             
             //Retorna o objeto que foi atualizado
-            return new ResponseEntity(grupo, HttpStatus.OK);
+            return new ResponseEntity(pedido, HttpStatus.OK);
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de pedido não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um pedido com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {
@@ -116,11 +116,11 @@ public class GrupoController {
         }
     }
     
-    @DeleteMapping("grupos/{id}")
+    @DeleteMapping("pedidos/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         try {
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity found = this.service.findById(id);
+            //Verifica se existe um pedido com o ID passado por parametro
+            PedidoEntity found = this.service.findById(id);
             
             
             //Exclui o item localizado
@@ -131,9 +131,9 @@ public class GrupoController {
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de pedido não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um pedido com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {
