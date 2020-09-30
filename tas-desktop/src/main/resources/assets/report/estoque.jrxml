@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estoque" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="19523a60-e2ad-47be-a825-4774276215f8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="qtdadeEstilo" fontName="Segoe UI" fontSize="12">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{qtdade} < 0)]]></conditionExpression>
+			<style forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="dtemissao" class="java.lang.String"/>
+	<parameter name="produtoDeAte" class="java.lang.String"/>
+	<parameter name="periodoDeAte" class="java.lang.String"/>
+	<field name="historico" class="java.lang.String">
+		<property name="historico" value=""/>
+	</field>
+	<field name="dtmovto" class="java.util.Date"/>
+	<field name="produto" class="br.edu.materdei.tas.core.model.ProdutoVO"/>
+	<field name="qtdade" class="java.lang.Integer"/>
+	<variable name="saldoPorProduto" class="java.lang.Integer" resetType="Group" resetGroup="Produto" calculation="Sum">
+		<variableExpression><![CDATA[$F{qtdade}]]></variableExpression>
+	</variable>
+	<group name="Produto">
+		<groupExpression><![CDATA[$F{produto}]]></groupExpression>
+		<groupHeader>
+			<band height="46">
+				<textField>
+					<reportElement x="0" y="13" width="555" height="29" uuid="36a673b3-ae0d-4445-9d34-e24af0331e68"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI Semibold" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{produto}.getNome()]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="42" width="555" height="1" uuid="69f0a7b1-74d7-4c08-9ac2-2718b4ddb107"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="36">
+				<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+					<reportElement x="504" y="0" width="51" height="20" uuid="c440066b-5ee3-4450-b67f-d97529fc25d5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Segoe UI Semibold" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldoPorProduto}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="404" y="0" width="100" height="20" uuid="b1f53325-7bbd-4486-a1bd-f3d0617bca9f"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Segoe UI Semibold" size="12"/>
+					</textElement>
+					<text><![CDATA[Saldo:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="27" forecolor="#3399FF" uuid="e4ec8240-d52e-457f-b18c-fcc2a3c70e22"/>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI Semibold" size="16"/>
+				</textElement>
+				<text><![CDATA[Movimentação de Estoque Por Período]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="351" y="44" width="204" height="17" uuid="4c088d85-31a8-4807-8313-9ddf6400acb3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Emitido em: "+$P{dtemissao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="44" width="204" height="17" uuid="5ef81daf-4acd-4c36-b1c7-238c7c5f3735"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Período: "+$P{periodoDeAte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="61" width="204" height="16" uuid="6d70c0c5-e666-4bca-ad4e-b8f9670ea7e9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Produto: "+$P{produtoDeAte}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="70" height="20" uuid="76bbb849-2cdc-4b89-b0bc-28edc4754484"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Segoe UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtmovto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" mode="Opaque" x="70" y="0" width="423" height="20" isPrintInFirstWholeBand="true" uuid="fa470257-0c11-406d-8852-c72554ba55da"/>
+				<textElement>
+					<font fontName="Segoe UI" size="12" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{historico}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement style="qtdadeEstilo" mode="Opaque" x="493" y="0" width="62" height="20" uuid="efc4714d-1441-419a-9c3f-aed2fd8012e7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qtdade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
