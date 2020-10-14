@@ -32,7 +32,7 @@ public class PedidoEntity {
     @Temporal(TemporalType.DATE)
     private Date dtfaturado;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private ClienteEntity cliente;
     

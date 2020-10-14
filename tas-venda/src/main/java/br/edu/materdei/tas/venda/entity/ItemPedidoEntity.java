@@ -3,6 +3,7 @@ package br.edu.materdei.tas.venda.entity;
 import br.edu.materdei.tas.core.entity.ProdutoEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class ItemPedidoEntity {
     @Column(nullable = false)
     private Double vlrunit;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private ProdutoEntity produto;
 
