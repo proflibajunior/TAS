@@ -1,6 +1,5 @@
 import { GrupoService } from './../_services/grupo.service';
 import { Component, OnInit } from '@angular/core';
-import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-grupo',
