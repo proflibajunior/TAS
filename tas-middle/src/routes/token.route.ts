@@ -20,7 +20,7 @@ class TokenRoute {
 
                 res.json({
                     token: jwt.sign(payload, process.env.SECRET, {
-                        expiresIn: '20 seconds'
+                        expiresIn: '24h'
                     })
                 });
             } else {

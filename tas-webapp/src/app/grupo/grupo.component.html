@@ -5,6 +5,14 @@
         </mat-toolbar>
     </mat-card-title>
     <mat-card-content>
+
+        <div class="panel-error" *ngIf="errorMessage">
+            <img src="assets/oops.png">
+            <h1 headline>Ocorreu um erro!</h1>
+            <p caption>{{errorMessage}}</p>
+            <button mat-button color="warn" (click)="ngOnInit()">Tentar Novamente</button>
+        </div>
+
         {{ grupos | json}}
     </mat-card-content>
 </mat-card>

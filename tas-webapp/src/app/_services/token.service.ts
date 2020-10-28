@@ -5,11 +5,11 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class GrupoService {
+export class TokenService {
 
   constructor(private http: HttpClient) { }
 
-  public listar() {
-    return this.http.get(environment.urlSRV +'/api/grupos');
+  public getAccessToken() {
+    return this.http.post(environment.urlSRV +'/token', {appkey: environment.appKEY});
   }
 }

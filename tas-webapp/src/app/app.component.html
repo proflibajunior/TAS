@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<div class="load-token" *ngIf="loadToken">
+    <mat-spinner></mat-spinner>
+    <h1>Autorizando o acesso ao servidor. Aguarde...</h1>
+    <p *ngIf="erroMessage">{{erroMessage}}</p>
+</div>
+
+<div class="main-content" *ngIf="!loadToken">
+    <router-outlet></router-outlet>
+</div>
