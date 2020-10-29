@@ -1,18 +1,89 @@
-<mat-card>
-    <mat-card-title>
-        <mat-toolbar color="primary">
-            <h3>Cadastro de Grupos</h3>
-        </mat-toolbar>
-    </mat-card-title>
-    <mat-card-content>
+<mat-sidenav-container class="sidenav-custom">
 
-        <div class="panel-error" *ngIf="errorMessage">
-            <img src="assets/oops.png">
-            <h1 headline>Ocorreu um erro!</h1>
-            <p caption>{{errorMessage}}</p>
-            <button mat-button color="warn" (click)="ngOnInit()">Tentar Novamente</button>
+    <mat-sidenav #sidenav position="end" disableClose="true">
+        <mat-toolbar>
+            <h2 *ngIf="!grupo.id">Adicionar Grupo</h2>
+            <h2 *ngIf="grupo.id">Alterar Grupo</h2>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="sidenav.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <div class="formulario">
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Nome" [(ngModel)]="grupo.nome">
+            </mat-form-field>
         </div>
 
-        {{ grupos | json}}
-    </mat-card-content>
-</mat-card>
+        <mat-toolbar>
+            <span class="spacer"></span>
+            <button mat-button (click)="sidenav.close()">CANCELAR</button>
+            <button mat-raised-button color="primary" (click)="confirmar()">CONFIRMAR</button>
+        </mat-toolbar>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <mat-card>
+            <mat-card-title>
+                <mat-toolbar color="primary">
+                    <h3>Cadastro de Grupos</h3>
+
+                    <span class="spacer"></span>
+
+                    <button mat-icon-button (click)="adicionar()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-toolbar>
+
+                <mat-progress-bar mode="indeterminate" color="warn" *ngIf="loading"></mat-progress-bar>
+
+            </mat-card-title>
+            <mat-card-content>
+
+                <table mat-table [dataSource]="grupos" *ngIf="!errorMessage">
+
+                    <!-- NOME -->
+                    <ng-container matColumnDef="nome">
+                        <th mat-header-cell *matHeaderCellDef> Nome </th>
+                        <td mat-cell *matCellDef="let grupo"> {{grupo.nome}} </td>
+                    </ng-container>
+
+                    <!-- OPTIONS -->
+                    <ng-container matColumnDef="options">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let grupo">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="editar(grupo)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Alterar</span>
+                                </button>
+                                <button mat-menu-item (click)="excluir(grupo)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Excluir</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <div class="panel-error" *ngIf="errorMessage">
+                    <img src="assets/oops.png">
+                    <h1 headline>Ocorreu um erro!</h1>
+                    <p caption>{{errorMessage}}</p>
+                    <button mat-button color="warn" (click)="ngOnInit()">Tentar Novamente</button>
+                </div>
+
+                
+            </mat-card-content>
+        </mat-card>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

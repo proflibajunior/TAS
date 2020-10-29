@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Excluir Registro</h1>
+
+<div mat-dialog-content>
+  <p>Deseja realmente excluir o registro?</p>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">CANCELAR</button>
+  <button mat-button (click)="confirmar()" color="warn" cdkFocusInitial>CONFIRMAR</button>
+</div>
