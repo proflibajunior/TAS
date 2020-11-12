@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,12 +32,21 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { GrupoComponent } from './grupo/grupo.component';
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { ProdutoComponent } from './produto/produto.component';
+
+//Locale Brasil
+import localept from '@angular/common/locales/pt';
+import { registerLocaleData} from '@angular/common';
+import { ClienteComponent } from './cliente/cliente.component';
+registerLocaleData(localept , 'pt');
 
 @NgModule({
   declarations: [
     AppComponent,
     GrupoComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ProdutoComponent,
+    ClienteComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +80,10 @@ import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dia
       provide: HTTP_INTERCEPTORS,
       useClass: CustomHttpInterceptor,
       multi: true
+    },
+    {
+      provide: LOCALE_ID,
+      useValue: 'pt'
     }
   ],
   bootstrap: [AppComponent]

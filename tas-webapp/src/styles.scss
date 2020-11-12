@@ -13,6 +13,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #e44f4e;
     color: #fff;
 }
+.flex-container {
+    display: flex;
+}
 .sidenav-custom {
     height: 100vh;
 
@@ -40,6 +43,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
             table {
                 width: 100%;
         
+                .mat-column-codigo {
+                    width: 80px;
+                }
+
+                .mat-column-ativo {
+                    width: 40px;
+                    text-align: center;
+                }
+
                 .mat-column-options {
                     text-align: right;
                     width: 60px;

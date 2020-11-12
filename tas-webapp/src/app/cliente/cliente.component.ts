@@ -1,21 +1,21 @@
-import { GrupoEntity, GrupoService } from './../_services/grupo.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../_components/confirm-dialog/confirm-dialog.component';
+import { ClienteEntity, ClienteService } from '../_services/cliente.service';
 
 @Component({
-  selector: 'app-grupo',
-  templateUrl: './grupo.component.html',
-  styleUrls: ['./grupo.component.scss']
+  selector: 'app-cliente',
+  templateUrl: './cliente.component.html',
+  styleUrls: ['./cliente.component.scss']
 })
-export class GrupoComponent implements OnInit {
+export class ClienteComponent implements OnInit {
 
-  public displayedColumns: string[] = ['nome', 'options'];
+  public displayedColumns: string[] = ['codigo','nome','cpf','email', 'endereco', 'ativo', 'options'];
 
-  public grupos: GrupoEntity[] = [];
-  public grupo: GrupoEntity = new GrupoEntity();
+  public clientes: ClienteEntity[] = [];
+  public cliente: ClienteEntity = new ClienteEntity();
 
   //Variaveis de controle
   public loading: boolean;
@@ -23,7 +23,7 @@ export class GrupoComponent implements OnInit {
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
 
-  constructor(private service: GrupoService, private snakBar: MatSnackBar,
+  constructor(private service: ClienteService, private snakBar: MatSnackBar,
     private dialog: MatDialog) { }
 
   /**
@@ -38,7 +38,7 @@ export class GrupoComponent implements OnInit {
     this.service.listar().subscribe(result => {
 
       //Alimenta o datasource da tabela com os registros recebidos da service
-      this.grupos = result as [];
+      this.clientes = result as [];
 
     }, error => {
 
@@ -57,10 +57,10 @@ export class GrupoComponent implements OnInit {
    * Dá um open na sidnav exibindo o formulário com os dados 
    * da objeto passado por parâmetro.
    * 
-   * @param grupo 
+   * @param cliente 
    */
-  private openSidenav(grupo: GrupoEntity): void {
-    this.grupo = grupo;
+  private openSidenav(cliente: ClienteEntity): void {
+    this.cliente = cliente;
     this.sidenav.open();
   }
 
@@ -84,26 +84,26 @@ export class GrupoComponent implements OnInit {
    * Abre o formulário com um novo cliente para inclusão
    */
   public adicionar(): void {
-    this.openSidenav(new GrupoEntity());
+    this.openSidenav(new ClienteEntity());
   }
 
   /**
    * Abre o formulário com os campos preenchidos com os valores
    * do parametro.
    * 
-   * @param grupo
+   * @param cliente
    */
-  public editar(grupo: GrupoEntity): void {
-    this.openSidenav(Object.assign({}, grupo));
+  public editar(cliente: ClienteEntity): void {
+    this.openSidenav(Object.assign({},cliente));
   }
 
   /**
    * Chama a janela de confirmação de exclusão, se usuário confirmar
    * chama evento de exclusão da service.
    * 
-   * @param grupo 
+   * @param cliente 
    */
-  public excluir(grupo: GrupoEntity): void {
+  public excluir(cliente: ClienteEntity): void {
     //Mostra a janela modal de confirmação
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px'
@@ -116,7 +116,7 @@ export class GrupoComponent implements OnInit {
       if (result) {
         this.loading = true;
 
-        this.service.excluir(grupo.id).subscribe(result => {
+        this.service.excluir(cliente.id).subscribe(result => {
 
           //Deu certo, avisa o usuário...
           this.snakBar.open('Registro excluído com sucesso!', '', {
@@ -149,7 +149,7 @@ export class GrupoComponent implements OnInit {
     this.loading = true;
 
     //Chama o método salvar (incluir ou alterar) da service
-    this.service.salvar(this.grupo).subscribe(result => {
+    this.service.salvar(this.cliente).subscribe(result => {
 
       //Deu tudo certo, então avise o usuário...
       this.snakBar.open('Registro salvo com sucesso!', '', {
@@ -174,4 +174,5 @@ export class GrupoComponent implements OnInit {
       this.sidenav.close();
     });
   }
+
 }

@@ -1,0 +1,149 @@
+<mat-sidenav-container class="sidenav-custom">
+
+    <mat-sidenav #sidenav position="end" disableClose="true">
+        <mat-toolbar>
+            <h2 *ngIf="!cliente.id">Adicionar Cliente</h2>
+            <h2 *ngIf="cliente.id">Alterar Cliente</h2>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="sidenav.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <div class="formulario">
+            <mat-form-field>
+                <input matInput placeholder="Código" [(ngModel)]="cliente.codigo">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Nome" [(ngModel)]="cliente.nome">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput placeholder="E-mail" [(ngModel)]="cliente.email">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Endereço" [(ngModel)]="cliente.endereco">
+            </mat-form-field>
+
+            <div class="flex-container">
+                <mat-form-field>
+                    <input matInput placeholder="CPF" [(ngModel)]="cliente.cpf">
+                </mat-form-field>
+
+                <span class="spacer"></span>
+
+                <mat-form-field>
+                    <mat-select placeholder="Ativo" [(ngModel)]="cliente.ativo">
+                        <mat-option value="S">Sim</mat-option>
+                        <mat-option value="N">Não</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <mat-toolbar>
+            <span class="spacer"></span>
+            <button mat-button (click)="sidenav.close()">CANCELAR</button>
+            <button mat-raised-button color="primary" (click)="confirmar()">CONFIRMAR</button>
+        </mat-toolbar>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <mat-card>
+            <mat-card-title>
+                <mat-toolbar color="primary">
+                    <h3>Cadastro de Clientes</h3>
+
+                    <span class="spacer"></span>
+
+                    <button mat-icon-button (click)="adicionar()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-toolbar>
+
+                <mat-progress-bar mode="indeterminate" color="warn" *ngIf="loading"></mat-progress-bar>
+
+            </mat-card-title>
+            <mat-card-content>
+
+                <table mat-table [dataSource]="clientes" *ngIf="!errorMessage">
+
+                    <!-- CODIGO -->
+                    <ng-container matColumnDef="codigo">
+                        <th mat-header-cell *matHeaderCellDef> Código </th>
+                        <td mat-cell *matCellDef="let cliente"> {{cliente.codigo}} </td>
+                    </ng-container>
+
+                    <!-- NOME -->
+                    <ng-container matColumnDef="nome">
+                        <th mat-header-cell *matHeaderCellDef> Nome </th>
+                        <td mat-cell *matCellDef="let cliente"> {{cliente.nome}} </td>
+                    </ng-container>
+
+                    <!-- CPF -->
+                    <ng-container matColumnDef="cpf">
+                        <th mat-header-cell *matHeaderCellDef> CPF </th>
+                        <td mat-cell *matCellDef="let cliente"> {{cliente.cpf}} </td>
+                    </ng-container>
+
+                    <!-- EMAIL -->
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> E-mail </th>
+                        <td mat-cell *matCellDef="let cliente"> {{cliente.email}} </td>
+                    </ng-container>
+
+                    <!-- ENDERECO -->
+                    <ng-container matColumnDef="endereco">
+                        <th mat-header-cell *matHeaderCellDef> Endereço </th>
+                        <td mat-cell *matCellDef="let cliente"> {{cliente.endereco}} </td>
+                    </ng-container>
+
+                    <!-- ATIVO -->
+                    <ng-container matColumnDef="ativo">
+                        <th mat-header-cell *matHeaderCellDef> Ativo </th>
+                        <td mat-cell *matCellDef="let cliente">
+                            <mat-icon style="color: #2eaa4f" *ngIf="cliente.ativo == 'S'">fiber_manual_record</mat-icon>
+                            <mat-icon style="color: #ed412c" *ngIf="cliente.ativo == 'N'">fiber_manual_record</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <!-- OPTIONS -->
+                    <ng-container matColumnDef="options">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let cliente">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="editar(cliente)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Alterar</span>
+                                </button>
+                                <button mat-menu-item (click)="excluir(cliente)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Excluir</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <div class="panel-error" *ngIf="errorMessage">
+                    <img src="assets/oops.png">
+                    <h1 headline>Ocorreu um erro!</h1>
+                    <p caption>{{errorMessage}}</p>
+                    <button mat-button color="warn" (click)="ngOnInit()">Tentar Novamente</button>
+                </div>
+
+                
+            </mat-card-content>
+        </mat-card>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>
