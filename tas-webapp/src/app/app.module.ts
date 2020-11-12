@@ -38,6 +38,9 @@ import { ProdutoComponent } from './produto/produto.component';
 import localept from '@angular/common/locales/pt';
 import { registerLocaleData} from '@angular/common';
 import { ClienteComponent } from './cliente/cliente.component';
+import { PedidoComponent } from './pedido/pedido.component';
+import { TotalPedidoPipe } from './_pipes/total-pedido.pipe';
+import { ItemPedidoComponent } from './_components/item-pedido/item-pedido.component';
 registerLocaleData(localept , 'pt');
 
 @NgModule({
@@ -46,7 +49,10 @@ registerLocaleData(localept , 'pt');
     GrupoComponent,
     ConfirmDialogComponent,
     ProdutoComponent,
-    ClienteComponent
+    ClienteComponent,
+    PedidoComponent,
+    TotalPedidoPipe,
+    ItemPedidoComponent
   ],
   imports: [
     BrowserModule,
