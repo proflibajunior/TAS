@@ -1,0 +1,71 @@
+<div class="load-token" *ngIf="loadToken">
+    <mat-spinner></mat-spinner>
+    <h1>Autorizando o acesso ao servidor. Aguarde...</h1>
+    <p *ngIf="erroMessage">{{erroMessage}}</p>
+</div>
+
+<div class="main-content" *ngIf="!loadToken">
+    <mat-toolbar>
+        <button mat-icon-button (click)="sidenav_menu.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h2>TAS - Controle Eleitoral</h2>
+    </mat-toolbar>
+    
+    <mat-sidenav-container class="sidenav-main">
+
+        <mat-sidenav #sidenav_menu mode="side">
+            <h3 mat-subheader>Menu Principal</h3>
+            <mat-nav-list>
+                <mat-divider></mat-divider>
+                
+                <mat-list-item>
+                    <mat-icon matListIcon>apartment</mat-icon>
+                    <a matLine routerLink="/zonas">Zonas</a>
+                </mat-list-item>
+    
+                <mat-divider></mat-divider>
+    
+                <mat-list-item>
+                    <mat-icon matListIcon>meeting_room</mat-icon>
+                    <a matLine routerLink="/secoes">Seções</a>
+                </mat-list-item>
+    
+                <mat-divider></mat-divider>
+    
+                <mat-list-item>
+                    <mat-icon matListIcon>people</mat-icon>
+                    <a matLine routerLink="/eleitores">Eleitores</a>
+                </mat-list-item>
+    
+                <mat-divider></mat-divider>
+    
+                <mat-list-item>
+                    <mat-icon matListIcon>account_balance</mat-icon>
+                    <a matLine routerLink="/partidos">Partidos</a>
+                </mat-list-item>
+    
+                <mat-divider></mat-divider>
+    
+                <mat-list-item>
+                    <mat-icon matListIcon>people_alt</mat-icon>
+                    <a matLine routerLink="/candidatos">Candidatos</a>
+                </mat-list-item>
+    
+                <mat-divider></mat-divider>
+    
+                <mat-list-item>
+                    <mat-icon matListIcon>verified_user</mat-icon>
+                    <a matLine routerLink="/votacoes">Votações</a>
+                </mat-list-item>
+    
+                <mat-divider></mat-divider>
+             </mat-nav-list>
+        </mat-sidenav>
+    
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    
+    </mat-sidenav-container>
+</div>

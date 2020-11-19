@@ -1,0 +1,161 @@
+<mat-sidenav-container class="sidenav-custom">
+
+    <mat-sidenav #sidenav position="end" disableClose="true">
+        <mat-toolbar>
+            <h2 *ngIf="!candidato.id">Adicionar Candidato</h2>
+            <h2 *ngIf="candidato.id">Alterar Candidato</h2>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="sidenav.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <div class="formulario">
+            <mat-form-field>
+                <input matInput placeholder="Código" [(ngModel)]="candidato.codigo">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Nome" [(ngModel)]="candidato.nome">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput placeholder="E-mail" [(ngModel)]="candidato.email">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Endereço" [(ngModel)]="candidato.endereco">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-select placeholder="Partido" [(ngModel)]="candidato.partido" [compareWith]= "compareOptions">
+                    <mat-option *ngFor="let partido of partidos" [value]="partido">{{ partido.legenda }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="flex-container">
+                <mat-form-field>
+                    <input matInput placeholder="Número" [(ngModel)]="candidato.numero">
+                </mat-form-field>
+
+                <span class="spacer"></span>
+
+                <mat-form-field>
+                    <mat-select placeholder="Ativo" [(ngModel)]="candidato.ativo">
+                        <mat-option value="S">Sim</mat-option>
+                        <mat-option value="N">Não</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <mat-toolbar>
+            <span class="spacer"></span>
+            <button mat-button (click)="sidenav.close()">CANCELAR</button>
+            <button mat-raised-button color="primary" (click)="confirmar()">CONFIRMAR</button>
+        </mat-toolbar>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <mat-card>
+            <mat-card-title>
+                <mat-toolbar color="primary">
+                    <h3>Cadastro de Candidatos</h3>
+
+                    <span class="spacer"></span>
+
+                    <button mat-icon-button (click)="adicionar()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-toolbar>
+
+                <mat-progress-bar mode="indeterminate" color="warn" *ngIf="loading"></mat-progress-bar>
+
+            </mat-card-title>
+            <mat-card-content>
+
+                <table mat-table [dataSource]="candidatos" *ngIf="!errorMessage">
+
+                    <!-- CODIGO -->
+                    <ng-container matColumnDef="codigo">
+                        <th mat-header-cell *matHeaderCellDef> Código </th>
+                        <td mat-cell *matCellDef="let candidato"> {{candidato.codigo}} </td>
+                    </ng-container>
+
+                    <!-- NOME -->
+                    <ng-container matColumnDef="nome">
+                        <th mat-header-cell *matHeaderCellDef> Nome </th>
+                        <td mat-cell *matCellDef="let candidato"> {{candidato.nome}} </td>
+                    </ng-container>
+
+                    <!-- NUMERO -->
+                    <ng-container matColumnDef="numero">
+                        <th mat-header-cell *matHeaderCellDef> Número </th>
+                        <td mat-cell *matCellDef="let candidato"> {{candidato.numero}} </td>
+                    </ng-container>
+
+                    <!-- EMAIL -->
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> E-mail </th>
+                        <td mat-cell *matCellDef="let candidato"> {{candidato.email}} </td>
+                    </ng-container>
+
+                    <!-- ENDERECO -->
+                    <ng-container matColumnDef="endereco">
+                        <th mat-header-cell *matHeaderCellDef> Endereço </th>
+                        <td mat-cell *matCellDef="let candidato"> {{candidato.endereco}} </td>
+                    </ng-container>
+
+                    <!-- PARTIDO -->
+                    <ng-container matColumnDef="partido">
+                        <th mat-header-cell *matHeaderCellDef> Seção </th>
+                        <td mat-cell *matCellDef="let candidato"> {{candidato.partido.legenda}} </td>
+                    </ng-container>
+
+                    <!-- ATIVO -->
+                    <ng-container matColumnDef="ativo">
+                        <th mat-header-cell *matHeaderCellDef> Ativo </th>
+                        <td mat-cell *matCellDef="let candidato">
+                            <mat-icon style="color: #2eaa4f" *ngIf="candidato.ativo == 'S'">fiber_manual_record</mat-icon>
+                            <mat-icon style="color: #ed412c" *ngIf="candidato.ativo == 'N'">fiber_manual_record</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <!-- OPTIONS -->
+                    <ng-container matColumnDef="options">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let candidato">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="editar(candidato)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Alterar</span>
+                                </button>
+                                <button mat-menu-item (click)="excluir(candidato)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Excluir</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <div class="panel-error" *ngIf="errorMessage">
+                    <img src="assets/oops.png">
+                    <h1 headline>Ocorreu um erro!</h1>
+                    <p caption>{{errorMessage}}</p>
+                    <button mat-button color="warn" (click)="ngOnInit()">Tentar Novamente</button>
+                </div>
+
+                
+            </mat-card-content>
+        </mat-card>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

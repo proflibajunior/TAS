@@ -1,9 +1,10 @@
 package br.edu.materdei.tas.server.controller;
 
-import br.edu.materdei.tas.core.entity.GrupoEntity;
+
 import br.edu.materdei.tas.core.exception.ResourceNotFoundException;
-import br.edu.materdei.tas.core.service.GrupoService;
 import br.edu.materdei.tas.server.utils.CustomErrorResponse;
+import br.edu.materdei.tas.votacao.entity.VotacaoEntity;
+import br.edu.materdei.tas.votacao.service.VotacaoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,19 +18,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GrupoController {
+public class VotacaoController {
     
     @Autowired
-    private GrupoService service;
+    private VotacaoService service;
     
-    @GetMapping("grupos")
-    public ResponseEntity<List<GrupoEntity>> findAll() {
+    @GetMapping("votacoes")
+    public ResponseEntity<List<VotacaoEntity>> findAll() {
         try {
             //Busca TODOS os registros no banco de dados
-            List<GrupoEntity> grupos = service.findAll();
+            List<VotacaoEntity> votacoes = service.findAll();
 
-            //Retorna a lista de grupos
-            return new ResponseEntity(grupos, HttpStatus.OK);  
+            //Retorna a lista de votacoes
+            return new ResponseEntity(votacoes, HttpStatus.OK);  
             
         } catch (Exception e) {
             
@@ -40,14 +41,14 @@ public class GrupoController {
         }
     }
     
-    @PostMapping("grupos")
-    public ResponseEntity create(@RequestBody GrupoEntity grupo) {
+    @PostMapping("votacoes")
+    public ResponseEntity create(@RequestBody VotacaoEntity votacao) {
         try {
-            //Insere o grupo no bando de dados
-            this.service.save(grupo);
+            //Insere o votacao no bando de dados
+            this.service.save(votacao);
             
-            //Retorna o grupo inserido
-            return new ResponseEntity(grupo, HttpStatus.CREATED);
+            //Retorna o votacao inserido
+            return new ResponseEntity(votacao, HttpStatus.CREATED);
             
         } catch (Exception e) {
             
@@ -58,21 +59,21 @@ public class GrupoController {
         }
     }
     
-    @GetMapping("grupos/{id}")
+    @GetMapping("votacoes/{id}")
     public ResponseEntity findByID(@PathVariable("id") Integer id) {
         try {
             
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity grupo = this.service.findById(id);
+            //Verifica se existe um votacao com o ID passado por parametro
+            VotacaoEntity votacao = this.service.findById(id);
             
-            //Retorna o grupo com o ID do parametro
-            return new ResponseEntity(grupo, HttpStatus.OK);
+            //Retorna o votacao com o ID do parametro
+            return new ResponseEntity(votacao, HttpStatus.OK);
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de votacao não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um votacao com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {
@@ -84,27 +85,27 @@ public class GrupoController {
         }
     }
     
-    @PutMapping("grupos/{id}")
+    @PutMapping("votacoes/{id}")
     public ResponseEntity update(@PathVariable("id") Integer id, 
-            @RequestBody GrupoEntity grupo) {
+            @RequestBody VotacaoEntity votacao) {
         try {
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity found = this.service.findById(id);
+            //Verifica se existe um votacao com o ID passado por parametro
+            VotacaoEntity found = this.service.findById(id);
             
             //Força que o novo objeto tenha o memso ID do objeto localizado
-            grupo.setId(found.getId());
+            votacao.setId(found.getId());
             
             //Salvara o novo objeto no banco
-            this.service.save(grupo);            
+            this.service.save(votacao);            
             
             //Retorna o objeto que foi atualizado
-            return new ResponseEntity(grupo, HttpStatus.OK);
+            return new ResponseEntity(votacao, HttpStatus.OK);
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de votacao não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um votacao com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {
@@ -116,11 +117,11 @@ public class GrupoController {
         }
     }
     
-    @DeleteMapping("grupos/{id}")
+    @DeleteMapping("votacoes/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         try {
-            //Verifica se existe um grupo com o ID passado por parametro
-            GrupoEntity found = this.service.findById(id);
+            //Verifica se existe um votacao com o ID passado por parametro
+            VotacaoEntity found = this.service.findById(id);
             
             
             //Exclui o item localizado
@@ -131,9 +132,9 @@ public class GrupoController {
             
         } catch (ResourceNotFoundException e) {
             
-            //Erro de grupo não encontrado
+            //Erro de votacao não encontrado
             return new ResponseEntity(
-                    new CustomErrorResponse("Não existe um grupo com este código"),
+                    new CustomErrorResponse("Não existe um votacao com este código"),
                     HttpStatus.NOT_FOUND);
             
         } catch (Exception e) {

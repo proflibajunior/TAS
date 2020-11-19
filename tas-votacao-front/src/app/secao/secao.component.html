@@ -1,0 +1,110 @@
+<mat-sidenav-container class="sidenav-custom">
+
+    <mat-sidenav #sidenav position="end" disableClose="true">
+        <mat-toolbar>
+            <h2 *ngIf="!secao.id">Adicionar Seção</h2>
+            <h2 *ngIf="secao.id">Alterar Seção</h2>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="sidenav.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <div class="formulario">
+            <mat-form-field>
+                <input matInput placeholder="Código" [(ngModel)]="secao.codigo">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-select placeholder="Zona" [(ngModel)]="secao.zona" [compareWith]= "compareOptions">
+                    <mat-option *ngFor="let zona of zonas" [value]="zona">{{ zona.nome }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+        </div>
+        <mat-toolbar>
+            <span class="spacer"></span>
+            <button mat-button (click)="sidenav.close()">CANCELAR</button>
+            <button mat-raised-button color="primary" (click)="confirmar()">CONFIRMAR</button>
+        </mat-toolbar>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <mat-card>
+            <mat-card-title>
+                <mat-toolbar color="primary">
+                    <h3>Cadastro de Seções</h3>
+
+                    <span class="spacer"></span>
+
+                    <button mat-icon-button (click)="adicionar()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-toolbar>
+
+                <mat-progress-bar mode="indeterminate" color="warn" *ngIf="loading"></mat-progress-bar>
+
+            </mat-card-title>
+            <mat-card-content>
+
+                <table mat-table [dataSource]="secoes" *ngIf="!errorMessage">
+
+                    <!-- CODIGO -->
+                    <ng-container matColumnDef="codigo">
+                        <th mat-header-cell *matHeaderCellDef> Código </th>
+                        <td mat-cell *matCellDef="let secao"> {{secao.codigo}} </td>
+                    </ng-container>
+
+                    <!-- ZONA -->
+                    <ng-container matColumnDef="zona">
+                        <th mat-header-cell *matHeaderCellDef> Zona </th>
+                        <td mat-cell *matCellDef="let secao"> {{secao.zona.nome}} </td>
+                    </ng-container>
+
+                    <!-- ATIVO -->
+                    <ng-container matColumnDef="ativo">
+                        <th mat-header-cell *matHeaderCellDef> Ativo </th>
+                        <td mat-cell *matCellDef="let secao">
+                            <mat-icon style="color: #2eaa4f" *ngIf="secao.ativo == 'S'">fiber_manual_record</mat-icon>
+                            <mat-icon style="color: #ed412c" *ngIf="secao.ativo == 'N'">fiber_manual_record</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <!-- OPTIONS -->
+                    <ng-container matColumnDef="options">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let secao">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="editar(secao)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Alterar</span>
+                                </button>
+                                <button mat-menu-item (click)="excluir(secao)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Excluir</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <div class="panel-error" *ngIf="errorMessage">
+                    <img src="assets/oops.png">
+                    <h1 headline>Ocorreu um erro!</h1>
+                    <p caption>{{errorMessage}}</p>
+                    <button mat-button color="warn" (click)="ngOnInit()">Tentar Novamente</button>
+                </div>
+
+                
+            </mat-card-content>
+        </mat-card>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -52,7 +52,11 @@
             <artifactId>tas-estoque</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>tas-votacao</artifactId>
+            <version>1.0-112020</version>
+        </dependency>
     </dependencies>
 
     <build>

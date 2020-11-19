@@ -12,14 +12,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
     "br.edu.materdei.tas.core.entity",
     "br.edu.materdei.tas.compra.entity",
     "br.edu.materdei.tas.venda.entity",
-    "br.edu.materdei.tas.estoque.entity"
+    "br.edu.materdei.tas.estoque.entity",
+    "br.edu.materdei.tas.votacao.entity"
         
 })
 @EnableJpaRepositories({
     "br.edu.materdei.tas.core.repository",
     "br.edu.materdei.tas.compra.repository",
     "br.edu.materdei.tas.venda.repository",
-    "br.edu.materdei.tas.estoque.repository"        
+    "br.edu.materdei.tas.estoque.repository" ,
+    "br.edu.materdei.tas.votacao.repository"       
 })
 @ComponentScan("br.edu.materdei.tas")
 public class Application {

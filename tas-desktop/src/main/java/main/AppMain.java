@@ -4,10 +4,14 @@ import br.edu.materdei.tas.desktop.MainFrame;
 
 
 public class AppMain {
-    public static void main(String[] args) {                
-        MainFrame frmMain = new MainFrame();
-        frmMain.dispose();
-        frmMain.setUndecorated(true);
-        frmMain.setVisible(true);
+    public static void main(String[] args) {  
+        try {
+            MainFrame frmMain = new MainFrame();
+            frmMain.dispose();
+            frmMain.setUndecorated(true);
+            frmMain.setVisible(true);
+        } catch (Exception e) {
+            System.exit(1);
+        }
     }
 }

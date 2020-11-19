@@ -1,0 +1,79 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.spacer {
+    flex: 1 1 auto;
+}
+.full-width {
+    width: 100%;
+}
+.snackWarn {
+    background-color: #e44f4e;
+    color: #fff;
+}
+.flex-container {
+    display: flex;
+}
+.sidenav-custom {
+    height: 100vh;
+
+    mat-sidenav {
+        width: 600px;
+
+        mat-toolbar {
+            background-color: #fff;
+        
+
+            .mat-raised-button {
+                margin-left: 5px;
+            }
+        }
+
+        .formulario {
+            margin: 15px 30px;
+        }
+    }
+
+    mat-sidenav-content {
+        mat-card {
+            margin: 50px;
+        
+            table {
+                width: 100%;
+        
+                .mat-column-codigo {
+                    width: 80px;
+                }
+
+                .mat-column-ativo {
+                    width: 40px;
+                    text-align: center;
+                }
+
+                .mat-column-options {
+                    text-align: right;
+                    width: 60px;
+                }
+            }
+
+            .panel-error {
+                margin-top: 50px;
+                text-align: center;
+            
+                h1 {
+                    color: #bababa;
+                    margin: 10px 0;        
+                }
+            
+                p {
+                    color: #e44f4e;
+                }
+            }
+        }
+    }
+
+}
+
+
